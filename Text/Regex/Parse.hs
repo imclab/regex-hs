@@ -1,5 +1,4 @@
 module Text.Regex.Parse (Regex, parseRegex) where
-import System.Environment
 import Text.Parsec
 import Text.Parsec.Combinator
 import Text.Parsec.Language
@@ -23,13 +22,6 @@ showRegex (Union r1 r2)  = showRegex r1 ++ "|" ++ showRegex r2
 showRegex (Concat r1 r2) = showRegex r1 ++ showRegex r2
 showRegex (Group r)      = "(" ++ showRegex r ++ ")"
 showRegex (Char c)       = [c]
-
-main = do args <- getArgs
-          let results = parse exprP "" (head args)
-          case results of
-            Left e  -> print e
-            Right d -> do print d
-                          putStrLn (showRegex d)
 
 parseRegex :: String -> Either ParseError Regex
 parseRegex = parse exprP ""
